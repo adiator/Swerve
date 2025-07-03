@@ -15,8 +15,8 @@ class GameOverScreen(game: Swerve) extends Screen {
         ScreenUtils.clear(Color.BLACK)
         batch.begin()
         font.setColor(Color.WHITE)
-        font.draw(batch, "Game Over", 300, 300)
-        font.draw(batch, "Press SPACE to restart", 250, 250)
+        font.draw(batch, "Game Over", 450, 300)
+        font.draw(batch, "Press SPACE to restart", 400, 250)
         batch.end()
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {

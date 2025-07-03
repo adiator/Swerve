@@ -13,6 +13,18 @@ buildscript {
 
   }
 }
+allprojects {
+  repositories {
+    mavenCentral()
+    google()
+    mavenLocal()
+    maven { url "https://djl.ai/maven" }
+    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
+    maven { url "https://s01.oss.sonatype.org/content/repositories/snapshots/" }
+    maven { url "https://s01.oss.sonatype.org" }
+    maven { url "https://jitpack.io" }
+  }
+}
 
 allprojects {
   apply plugin: 'eclipse'
@@ -69,6 +81,10 @@ subprojects {
     maven { url 'https://s01.oss.sonatype.org/content/repositories/snapshots/' }
     maven { url 'https://jitpack.io' }
   }
+}
+
+ext {
+  gdxControllersVersion = '2.2.3' // see badges above for latest versions
 }
 
 eclipse.project.name = 'Swerve' + '-parent'

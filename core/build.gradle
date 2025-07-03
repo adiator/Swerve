@@ -5,6 +5,13 @@ dependencies {
   api "com.badlogicgames.gdx:gdx-box2d:$gdxVersion"
   api "com.badlogicgames.gdx:gdx:$gdxVersion"
   api "org.scala-lang:scala3-library_3:$scalaVersion"
+  implementation "com.badlogicgames.gdx-controllers:gdx-controllers-core:$gdxControllersVersion"
+
+  implementation "ai.djl:api:0.26.0"
+  implementation "ai.djl.pytorch:pytorch-engine:0.26.0"
+  implementation "ai.djl.pytorch:pytorch-native-cpu:1.13.1"
+
+
 
   if(enableGraalNative == 'true') {
     implementation "io.github.berstanio:gdx-svmhelper-annotations:$graalHelperVersion"
