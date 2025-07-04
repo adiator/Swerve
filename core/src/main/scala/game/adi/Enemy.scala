@@ -56,7 +56,7 @@ class Enemy {
     def update(dt: Float, player: Player, model:Model): Unit = {
         y-=speedy*dt
         val oldPos = new Vector2(x, y)
-        if(follow && x>=centre-480) {
+        if(follow && x>=centre-480 && x<centre+480) {
             speedx = x_speed(player, model)
             x += speedx
         }
