@@ -56,6 +56,7 @@ class DataCollection(game:Swerve) extends Screen{
         enemy.update(v, player, model)
         enemy.draw(batch)
         batch.end()
+        println(player.pos())
 
 
         updateFile()
