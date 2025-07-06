@@ -86,4 +86,6 @@ class Model() {
         val pred = ((l2.mul(y_std)).add(y_mean)).getFloat()
         pred
     }
+    
+    def close():Unit = manager.close()
 }

@@ -5,15 +5,18 @@ import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.{Batch, Sprite}
 import com.badlogic.gdx.math.Vector2
 
+import scala.compiletime.uninitialized
+
 class Enemy {
-    private var x: Float = _
-    private var y: Float = _
-    private var speedx: Float = _
-    private var speedy: Float = 250
-    var sprite: Sprite = _
-    var velocity: Vector2 = _
+    private var x: Float = uninitialized
+    private var y: Float = uninitialized
+    private var speedx: Float = uninitialized
+    private val speedy: Float = 250
+    var sprite: Sprite = uninitialized
+    var velocity: Vector2 = uninitialized
     var follow: Boolean = false
     private val centre = (Gdx.graphics.getWidth)/2
+    var overtaken: Boolean = false
 
 
     def followPlayer():Unit = {
@@ -56,7 +59,7 @@ class Enemy {
     def update(dt: Float, player: Player, model:Model): Unit = {
         y-=speedy*dt
         val oldPos = new Vector2(x, y)
-        if(follow && x>=centre-480 && x<centre+480) {
+        if(follow && player.pos().x>=centre-480 && player.pos().x<centre+480) {
             speedx = x_speed(player, model)
             x += speedx
         }
@@ -67,5 +70,6 @@ class Enemy {
     def pos(): Vector2 = {
         new Vector2(x, y)
     }
+
 
 }

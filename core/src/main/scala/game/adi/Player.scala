@@ -2,9 +2,9 @@ package game.adi
 
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.{Batch, Sprite}
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.{Gdx, Input}
+import scala.compiletime.uninitialized
 
 
 class Player {
@@ -12,10 +12,10 @@ class Player {
     private val height = Gdx.graphics.getHeight
     private var x: Float = width/2
     private var y: Float = height/2
-    private var speed = 200
-    var sprite: Sprite = _
-    var velocity: Vector2 = _
-    private var scalef:Float = _
+    private val speed = 200
+    var sprite: Sprite = uninitialized
+    var velocity: Vector2 = uninitialized
+    private var scalef:Float = uninitialized
 
     def initSprite(texture: Texture, scale: Float): Unit = {
         sprite = new Sprite(texture)
@@ -53,11 +53,7 @@ class Player {
 
     }
 
-    //    def render(renderer: ShapeRenderer): Unit ={
-    //        renderer.rect(x, y, 25, 50)
-    //    }
-
     def pos(): Vector2 = {
-        return new Vector2(x, y)
+        new Vector2(x, y)
     }
 }

@@ -39,6 +39,12 @@ allprojects {
   }
 }
 
+allprojects {
+  ext {
+    gdxControllersVersion = '2.2.3'
+    visuiVersion = '1.5.5'
+  }
+}
 configure(subprojects) {
   apply plugin: 'java-library'
   apply plugin: 'scala'
@@ -83,8 +89,6 @@ subprojects {
   }
 }
 
-ext {
-  gdxControllersVersion = '2.2.3' // see badges above for latest versions
-}
+
 
 eclipse.project.name = 'Swerve' + '-parent'
