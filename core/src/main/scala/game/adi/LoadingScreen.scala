@@ -11,7 +11,7 @@ import com.kotcrab.vis.ui.widget.{VisLabel, VisProgressBar}
 
 import scala.compiletime.uninitialized
 
-class LoadingScreen(game:Swerve) extends Screen{
+class LoadingScreen(game: Swerve) extends Screen {
 
     private val batch = game.batch
     private val font = new BitmapFont()
@@ -30,31 +30,35 @@ class LoadingScreen(game:Swerve) extends Screen{
         progressBar.setValue(0)
         progressBar.setAnimateDuration(0.25f)
         label = new VisLabel("Loading")
+
+
         table = new Table()
         table.setFillParent(true)
         table.center()
 
         table.add(label).row()
-        table.add(progressBar)
+        table.add(progressBar).width(700f).height(150f)
 
         stage.addActor(table)
+
+
     }
 
     override def render(v: Float): Unit = {
         ScreenUtils.clear(Color.BLACK)
         stage.act(v)
         stage.draw()
-
         time += v
-        if(time>=5){
+        if (time >= 5) {
             if (!loaded) {
                 Assets.load()
                 loaded = true
             }
-            if(Assets.loaded) time = 18f; Assets.loaded = false
+            if (Assets.loaded) time = 18f;
+            Assets.loaded = false
         }
         progressBar.setValue(time)
-        if(time>=25f){
+        if (time >= 25f) {
             game.setScreen(new MainScreen(game))
             dispose()
         }

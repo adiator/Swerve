@@ -1,6 +1,6 @@
 package game.adi
 
-import com.badlogic.gdx.{Gdx, Screen}
+import com.badlogic.gdx.{Gdx, Input, Screen}
 import com.badlogic.gdx.graphics.{Color, Texture}
 import com.badlogic.gdx.graphics.g2d.{Batch, BitmapFont}
 import com.badlogic.gdx.utils.ScreenUtils
@@ -29,6 +29,9 @@ class GameScreen(game: Swerve) extends Screen {
     private var score: Int = 0
     private var highScore: Int = uninitialized
     private val prefs = Gdx.app.getPreferences("profile")
+    private val pauseScreen: PauseScreen = new PauseScreen(game, this)
+    private var paused: Boolean = false
+    private var innit: Boolean = false
 
 
     private val smartEnemies = new ArrayBuffer[Enemy]()
@@ -37,84 +40,95 @@ class GameScreen(game: Swerve) extends Screen {
 
 
     override def show(): Unit = {
-        highScore = prefs.getInteger("highscore", 0)
-        player = new Player
-        playerImg = Assets.loadPlayerSprite()
-        player.initSprite(playerImg, scalef)
+        if(!innit) {
+            highScore = prefs.getInteger("highscore", 0)
+            player = new Player
+            playerImg = Assets.loadPlayerSprite()
+            player.initSprite(playerImg, scalef)
 
-        model = Assets.loadModel()
+            model = Assets.loadModel()
 
-        scoreLabel.getData.setScale(2f)
-
+            scoreLabel.getData.setScale(2f)
+            innit = true
+        }
     }
 
     override def render(v: Float): Unit = {
+
         ScreenUtils.clear(Color.BLACK)
         batch.begin()
-        scoreLabel.draw(batch, f"Score : $score", 0, Gdx.graphics.getHeight - 20)
-        scoreLabel.draw(batch, f"High Score : $highScore", 0, Gdx.graphics.getHeight - 50)
+        scoreLabel.draw(batch, "Press ESC to pause", 0, Gdx.graphics.getHeight)
+        scoreLabel.draw(batch, f"Score : $score", 0, Gdx.graphics.getHeight - 50)
+        scoreLabel.draw(batch, f"High Score : $highScore", 0, Gdx.graphics.getHeight - 80)
         player.update(v)
         player.draw(batch)
-
-        t1 += v
-        t2 += v
-        if (t1 >= tt1) {
-            spawnSmartEnemy()
-            t1 = 0f
-            tt1 = Random.between(1.8f, 2.4f)
-        }
-        if (t2 >= tt2) {
-            spawnDumbEnemy()
-            t2 = 0f
-            tt2 = Random.between(0.5f, 0.8f)
-        }
-
-        smartEnemies.foreach(e =>
-            e.update(v, player, model)
-            e.draw(batch)
-            if (e.sprite.getBoundingRectangle.overlaps(player.sprite.getBoundingRectangle)) {
-                gameOver()
+        if (!paused) {
+            t1 += v
+            t2 += v
+            if (t1 >= tt1) {
+                spawnSmartEnemy()
+                t1 = 0f
+                tt1 = Random.between(1.8f, 2.4f)
             }
-            if (player.pos().y > (e.pos().y + 213 * scalef) && !e.overtaken) {
-                e.overtaken = true
-                score += 1
-                if (score > highScore) {
-                    prefs.putInteger("highscore", score)
-                    prefs.flush()
-                    highScore = score
+            if (t2 >= tt2) {
+                spawnDumbEnemy()
+                t2 = 0f
+                tt2 = Random.between(0.5f, 0.8f)
+            }
+
+            smartEnemies.foreach(e =>
+                e.update(v, player, model)
+                e.draw(batch)
+                if (e.sprite.getBoundingRectangle.overlaps(player.sprite.getBoundingRectangle)) {
+                    gameOver()
                 }
-            }
-        )
-        smartEnemies.filterInPlace(e =>
-            e.pos().y >= -150
-        )
+                if (player.pos().y > (e.pos().y + 213 * scalef) && !e.overtaken) {
+                    e.overtaken = true
+                    score += 1
+                    if (score > highScore) {
+                        prefs.putInteger("highscore", score)
+                        prefs.flush()
+                        highScore = score
+                    }
+                }
+            )
+            smartEnemies.filterInPlace(e =>
+                e.pos().y >= -150
+            )
 
-        dumbEnemiesL.foreach(e =>
-            e.update(v, player, model)
-            e.draw(batch)
-            if (e.sprite.getBoundingRectangle.overlaps(player.sprite.getBoundingRectangle)) {
-                gameOver()
-            }
-        )
-        dumbEnemiesL.filterInPlace(e =>
-            e.pos().y >= -150
-        )
+            dumbEnemiesL.foreach(e =>
+                e.update(v, player, model)
+                e.draw(batch)
+                if (e.sprite.getBoundingRectangle.overlaps(player.sprite.getBoundingRectangle)) {
+                    gameOver()
+                }
+            )
+            dumbEnemiesL.filterInPlace(e =>
+                e.pos().y >= -150
+            )
 
-        dumbEnemiesR.foreach(e =>
-            e.update(v, player, model)
-            e.draw(batch)
-            if (e.sprite.getBoundingRectangle.overlaps(player.sprite.getBoundingRectangle)) {
-                gameOver()
-            }
-        )
-        dumbEnemiesR.filterInPlace(e =>
-            e.pos().y >= -150
-        )
+            dumbEnemiesR.foreach(e =>
+                e.update(v, player, model)
+                e.draw(batch)
+                if (e.sprite.getBoundingRectangle.overlaps(player.sprite.getBoundingRectangle)) {
+                    gameOver()
+                }
+            )
+            dumbEnemiesR.filterInPlace(e =>
+                e.pos().y >= -150
+            )
 
-        batch.end()
+            batch.end()
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            game.setScreen(pauseScreen)
+            setPaused(true)
+        }
     }
 
 
+    def setPaused(p: Boolean): Unit = paused = p
 
     private def gameOver(): Unit = {
         game.setScreen(new GameOverScreen(game))
@@ -156,6 +170,7 @@ class GameScreen(game: Swerve) extends Screen {
 
 
     override def dispose(): Unit = {
+        pauseScreen.dispose()
     }
 
 }

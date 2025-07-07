@@ -1,6 +1,6 @@
 package game.adi
 
-import com.badlogic.gdx.{Gdx, Input, Screen}
+import com.badlogic.gdx.{Gdx, Screen}
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.{InputEvent, Stage}
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
@@ -8,31 +8,39 @@ import com.badlogic.gdx.utils.ScreenUtils
 import com.kotcrab.vis.ui.VisUI
 import com.kotcrab.vis.ui.widget.{VisLabel, VisTextButton}
 import com.badlogic.gdx.scenes.scene2d.ui.Table
-
 import scala.compiletime.uninitialized
 
-class MainScreen(game:Swerve) extends Screen{
+class PauseScreen(game:Swerve, gameScreen:GameScreen) extends Screen{
     private val width = Gdx.graphics.getWidth
     private val height = Gdx.graphics.getHeight
-    private var stage: Stage = uninitialized
-    private var table:Table = uninitialized
-    private var startButton: VisTextButton = uninitialized
+    private var stage: Stage = new Stage()
+    private var table: Table = uninitialized
+    private var resumeButton: VisTextButton = uninitialized
     private var label: VisLabel = uninitialized
     private val prefs = Gdx.app.getPreferences("profile")
     private var highScore: Int = uninitialized
     private var hsLabel: VisLabel = uninitialized
+    var exit: VisTextButton = uninitialized
+
+    exit = VisTextButton("Exit")
+    exit.addListener(new ClickListener {
+        override def clicked(event: InputEvent, x: Float, y: Float): Unit = {
+            Gdx.app.exit()
+            dispose()
+            Assets.dispose()
+
+        }
+    })
 
     override def show(): Unit = {
-        if(!VisUI.isLoaded) VisUI.load()
-        stage = new Stage()
+        if (!VisUI.isLoaded) VisUI.load()
         Gdx.input.setInputProcessor(stage)
         table = new Table()
-        startButton = new VisTextButton("Start")
-        startButton.addListener(new ClickListener{
+        resumeButton = new VisTextButton("Resume")
+        resumeButton.addListener(new ClickListener {
             override def clicked(event: InputEvent, x: Float, y: Float): Unit = {
-                game.setScreen(new GameScreen(game))
-                dispose()
-
+                game.setScreen(gameScreen)
+                gameScreen.setPaused(false)
             }
         })
 
@@ -42,7 +50,8 @@ class MainScreen(game:Swerve) extends Screen{
         hsLabel.setFontScale(3)
 
         table.add(hsLabel).padBottom(200).row()
-        table.add(startButton).width(300f).height(150f)
+        table.add(resumeButton).width(300f).height(150f).pad(100).row()
+        table.add(exit).width(150).height(75f)
         table.center()
         table.setFillParent(true)
         stage.addActor(table)
@@ -54,6 +63,7 @@ class MainScreen(game:Swerve) extends Screen{
         stage.draw()
 
     }
+
     override def resize(width: Int, height: Int): Unit = {}
 
     override def pause(): Unit = {}
