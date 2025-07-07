@@ -74,6 +74,5 @@ class GameOverScreen(game: Swerve) extends Screen {
 
     override def dispose(): Unit = {
         stage.dispose()
-        VisUI.dispose()
     }
 }

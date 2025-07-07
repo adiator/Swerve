@@ -10,13 +10,17 @@ object Assets {
     private var smartEnemySprite: Texture = uninitialized
     private var dumbEnemySprite: Texture = uninitialized
     private var model: Model = uninitialized
+    var loaded:Boolean = false
 
     def load(): Unit = {
         playerSprite = new Texture("Police.png")
         smartEnemySprite = new Texture("Audi.png")
         dumbEnemySprite = new Texture("Mini_truck.png")
         model = new Model
+        model.load()
+        loaded = true
     }
+
 
     def loadPlayerSprite(): Texture = playerSprite
 

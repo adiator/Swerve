@@ -26,7 +26,7 @@ class MainScreen(game:Swerve) extends Screen{
         startButton = new VisTextButton("Start")
         startButton.addListener(new ClickListener{
             override def clicked(event: InputEvent, x: Float, y: Float): Unit = {
-                game.setScreen(new LoadingScreen(game))
+                game.setScreen(new GameScreen(game))
                 dispose()
 
             }
@@ -53,7 +53,6 @@ class MainScreen(game:Swerve) extends Screen{
     override def hide(): Unit = {}
 
     override def dispose(): Unit = {
-        VisUI.dispose()
         stage.dispose()
     }
 }
