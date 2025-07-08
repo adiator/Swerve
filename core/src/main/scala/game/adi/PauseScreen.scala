@@ -20,10 +20,10 @@ class PauseScreen(game:Swerve, gameScreen:GameScreen) extends Screen{
     private val prefs = Gdx.app.getPreferences("profile")
     private var highScore: Int = uninitialized
     private var hsLabel: VisLabel = uninitialized
-    var exit: VisTextButton = uninitialized
+    var exitButton: VisTextButton = uninitialized
 
-    exit = VisTextButton("Exit")
-    exit.addListener(new ClickListener {
+    exitButton = VisTextButton("Exit")
+    exitButton.addListener(new ClickListener {
         override def clicked(event: InputEvent, x: Float, y: Float): Unit = {
             Gdx.app.exit()
             dispose()
@@ -51,7 +51,7 @@ class PauseScreen(game:Swerve, gameScreen:GameScreen) extends Screen{
 
         table.add(hsLabel).padBottom(200).row()
         table.add(resumeButton).width(300f).height(150f).pad(100).row()
-        table.add(exit).width(150).height(75f)
+        table.add(exitButton).width(150).height(75f)
         table.center()
         table.setFillParent(true)
         stage.addActor(table)

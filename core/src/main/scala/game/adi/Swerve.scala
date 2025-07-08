@@ -14,7 +14,7 @@ class Swerve extends Game{
         VisUI.load(Gdx.files.internal("skins/star-soldier-ui.json"))
         setScreen(new LoadingScreen(this))
     }
-    
+
 
     override def render(): Unit = super.render()
 

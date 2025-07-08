@@ -21,6 +21,7 @@ class MainScreen(game:Swerve) extends Screen{
     private val prefs = Gdx.app.getPreferences("profile")
     private var highScore: Int = uninitialized
     private var hsLabel: VisLabel = uninitialized
+    private var exitButton: VisTextButton = uninitialized
 
     override def show(): Unit = {
         if(!VisUI.isLoaded) VisUI.load()
@@ -35,16 +36,26 @@ class MainScreen(game:Swerve) extends Screen{
 
             }
         })
+        exitButton = VisTextButton("Exit")
+        exitButton.addListener(new ClickListener {
+            override def clicked(event: InputEvent, x: Float, y: Float): Unit = {
+                Gdx.app.exit()
+                dispose()
+                Assets.dispose()
 
+            }
+        })
 
         highScore = prefs.getInteger("highscore", 0)
         hsLabel = new VisLabel(f"Highscore : $highScore")
         hsLabel.setFontScale(3)
 
-        table.add(hsLabel).padBottom(200).row()
-        table.add(startButton).width(300f).height(150f)
         table.center()
         table.setFillParent(true)
+
+        table.add(hsLabel).padBottom(200).row()
+        table.add(startButton).width(300f).height(150f).row()
+        table.add(exitButton).width(150).height(75f)
         stage.addActor(table)
     }
 

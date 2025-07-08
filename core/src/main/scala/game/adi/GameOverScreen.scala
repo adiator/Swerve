@@ -15,11 +15,12 @@ import scala.compiletime.uninitialized
 class GameOverScreen(game: Swerve) extends Screen {
     private val width = Gdx.graphics.getWidth
     private val height = Gdx.graphics.getHeight
-    var stage: Stage = uninitialized
-    var table: Table = uninitialized
-    var restart: VisTextButton = uninitialized
-    var exit: VisTextButton = uninitialized
-    var gameOver: VisLabel = uninitialized
+    private var stage: Stage = uninitialized
+    private var table: Table = uninitialized
+    private var restart: VisTextButton = uninitialized
+    private var exitButton: VisTextButton = uninitialized
+    private var mainScreenButton: VisTextButton = uninitialized
+    private var gameOver: VisLabel = uninitialized
 
     override def show(): Unit = {
         if (!VisUI.isLoaded) VisUI.load()
@@ -35,8 +36,8 @@ class GameOverScreen(game: Swerve) extends Screen {
                 dispose()
             }
         })
-        exit = VisTextButton("Exit")
-        exit.addListener(new ClickListener{
+        exitButton = VisTextButton("Exit")
+        exitButton.addListener(new ClickListener{
             override def clicked(event: InputEvent, x: Float, y: Float): Unit = {
                 Gdx.app.exit()
                 dispose()
@@ -44,6 +45,16 @@ class GameOverScreen(game: Swerve) extends Screen {
 
             }
         })
+        mainScreenButton = VisTextButton("Main Screen")
+        mainScreenButton.addListener(new ClickListener {
+            override def clicked(event: InputEvent, x: Float, y: Float): Unit = {
+                game.setScreen(new MainScreen(game))
+                dispose()
+
+            }
+        })
+
+
         gameOver = new VisLabel("You crashed")
         gameOver.setFontScale(2)
         table = new Table()
@@ -52,7 +63,8 @@ class GameOverScreen(game: Swerve) extends Screen {
 
         table.add(gameOver).padBottom(200).row()
         table.add(restart).width(300f).height(150f).pad(100).row()
-        table.add(exit).width(150).height(75f)
+        table.add(mainScreenButton).width(250).height(75f).row()
+        table.add(exitButton).width(150).height(75f)
         stage.addActor(table)
 
     }
