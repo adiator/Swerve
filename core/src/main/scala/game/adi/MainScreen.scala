@@ -16,18 +16,21 @@ class MainScreen(game:Swerve) extends Screen{
     private val height = Gdx.graphics.getHeight
     private var stage: Stage = uninitialized
     private var table:Table = uninitialized
+    private var aboutTable: Table = uninitialized
     private var startButton: VisTextButton = uninitialized
     private var label: VisLabel = uninitialized
     private val prefs = Gdx.app.getPreferences("profile")
     private var highScore: Int = uninitialized
     private var hsLabel: VisLabel = uninitialized
     private var exitButton: VisTextButton = uninitialized
+    private var aboutButton: VisTextButton = uninitialized
 
     override def show(): Unit = {
         if(!VisUI.isLoaded) VisUI.load()
         stage = new Stage()
         Gdx.input.setInputProcessor(stage)
         table = new Table()
+        aboutTable = new Table()
         startButton = new VisTextButton("Start")
         startButton.addListener(new ClickListener{
             override def clicked(event: InputEvent, x: Float, y: Float): Unit = {
@@ -45,10 +48,20 @@ class MainScreen(game:Swerve) extends Screen{
 
             }
         })
+        aboutButton = new VisTextButton("About")
+        aboutButton.addListener(new ClickListener {
+            override def clicked(event: InputEvent, x: Float, y: Float): Unit = {
+                game.setScreen(new AboutScreen(game))
+                dispose()
 
+            }
+        })
         highScore = prefs.getInteger("highscore", 0)
         hsLabel = new VisLabel(f"Highscore : $highScore")
         hsLabel.setFontScale(3)
+        aboutTable.left().top()
+        aboutTable.setFillParent(true)
+        aboutTable.add(aboutButton).width(150f).height(75f)
 
         table.center()
         table.setFillParent(true)
@@ -56,7 +69,9 @@ class MainScreen(game:Swerve) extends Screen{
         table.add(hsLabel).padBottom(200).row()
         table.add(startButton).width(300f).height(150f).row()
         table.add(exitButton).width(150).height(75f)
+        stage.addActor(aboutTable)
         stage.addActor(table)
+
     }
 
     override def render(v: Float): Unit = {

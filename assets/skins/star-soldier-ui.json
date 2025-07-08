@@ -92,8 +92,16 @@ com.badlogic.gdx.scenes.scene2d.ui.ImageButton$ImageButtonStyle: {
 		imageUp: right-arrow
 		imageDown: right-arrow-down
 	}
-}
-com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
+},
+  com.kotcrab.vis.ui.widget.LinkLabel$LinkLabelStyle: {
+    default: {
+      font: font,
+      fontColor: { r: 0.3, g: 0.5, b: 1, a: 1 },
+//      visitedFontColor: { r: 0.2, g: 0.4, b: 1, a: 1 }
+    }
+  },
+
+  com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
 	default: {
 		font: font
 		up: button
@@ -121,7 +129,8 @@ com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {
 		fontColorUnselected: white
 		selection: selection
 	}
-}
+},
+
 com.badlogic.gdx.scenes.scene2d.ui.ProgressBar$ProgressBarStyle: {
 	default-horizontal: {
 		background: progress-bar-back

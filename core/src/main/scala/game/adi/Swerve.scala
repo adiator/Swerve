@@ -12,7 +12,7 @@ class Swerve extends Game{
     override def create(): Unit = {
         batch = new SpriteBatch()
         VisUI.load(Gdx.files.internal("skins/star-soldier-ui.json"))
-        setScreen(new LoadingScreen(this))
+        setScreen(new AboutScreen(this))
     }
 
 

@@ -73,7 +73,7 @@ class GameScreen(game: Swerve) extends Screen {
             if (t2 >= tt2) {
                 spawnDumbEnemy()
                 t2 = 0f
-                tt2 = Random.between(0.5f, 0.8f)
+                tt2 = Random.between(0.3f, 0.8f)
             }
 
             smartEnemies.foreach(e =>
@@ -139,7 +139,7 @@ class GameScreen(game: Swerve) extends Screen {
         smartEnemy = new Enemy
         val ranx = Random.between(centre - limit, centre + limit)
 
-        smartEnemy.setpos(ranx, Gdx.graphics.getHeight)
+        smartEnemy.setpos(ranx, Gdx.graphics.getHeight+400)
         smartEnemy.initSprite(Assets.loadSmartEnemySprite(), scalef)
         smartEnemy.followPlayer()
         smartEnemies += smartEnemy

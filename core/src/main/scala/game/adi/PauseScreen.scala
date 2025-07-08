@@ -58,7 +58,7 @@ class PauseScreen(game:Swerve, gameScreen:GameScreen) extends Screen{
     }
 
     override def render(v: Float): Unit = {
-        ScreenUtils.clear(Color.DARK_GRAY)
+//        ScreenUtils.clear(Color.DARK_GRAY)
         stage.act(v)
         stage.draw()
 
