@@ -50,16 +50,16 @@ class GameOverScreen(game: Swerve) extends Screen {
         table.setFillParent(true)
         table.center()
 
-        table.add(restart).row()
-        table.add(gameOver).row()
-        table.add(exit)
+        table.add(gameOver).padBottom(200).row()
+        table.add(restart).width(300f).height(150f).pad(100).row()
+        table.add(exit).width(150).height(75f)
         stage.addActor(table)
 
     }
 
 
     override def render(delta: Float): Unit = {
-        ScreenUtils.clear(Color.BLACK)
+        ScreenUtils.clear(Color.DARK_GRAY)
         stage.act(delta)
         stage.draw()
     }

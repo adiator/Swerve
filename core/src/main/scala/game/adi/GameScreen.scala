@@ -24,7 +24,7 @@ class GameScreen(game: Swerve) extends Screen {
     private var model: Model = uninitialized
     private val centre = (Gdx.graphics.getWidth) / 2
     private val scoreLabel: BitmapFont = new BitmapFont()
-    private val limit = 200
+    private val limit = 500
     private val scalef = 0.6f
     private var score: Int = 0
     private var highScore: Int = uninitialized
@@ -148,8 +148,8 @@ class GameScreen(game: Swerve) extends Screen {
     private def spawnDumbEnemy(): Unit = {
         dumbEnemyL = new Enemy
         dumbEnemyR = new Enemy
-        val ranxL = Random.between(50, centre - (limit + 300))
-        val ranxR = Random.between(centre + (limit + 300), centre * 2 - 50)
+        val ranxL = Random.between(50, centre - limit)
+        val ranxR = Random.between(centre + limit, centre * 2 - 50)
 
         dumbEnemyL.setpos(ranxL, Gdx.graphics.getHeight + 10)
         dumbEnemyL.initSprite(Assets.loadDumbEnemySprite(), scalef)

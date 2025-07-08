@@ -49,7 +49,7 @@ class MainScreen(game:Swerve) extends Screen{
     }
 
     override def render(v: Float): Unit = {
-        ScreenUtils.clear(Color.BLACK)
+        ScreenUtils.clear(Color.DARK_GRAY)
         stage.act(v)
         stage.draw()
 
