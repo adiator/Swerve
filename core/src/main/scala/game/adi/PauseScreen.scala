@@ -1,5 +1,6 @@
 package game.adi
 
+import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.{Gdx, Screen}
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.{InputEvent, Stage}
@@ -8,12 +9,13 @@ import com.badlogic.gdx.utils.ScreenUtils
 import com.kotcrab.vis.ui.VisUI
 import com.kotcrab.vis.ui.widget.{VisLabel, VisTextButton}
 import com.badlogic.gdx.scenes.scene2d.ui.Table
+
 import scala.compiletime.uninitialized
 
 class PauseScreen(game:Swerve, gameScreen:GameScreen) extends Screen{
     private val width = Gdx.graphics.getWidth
     private val height = Gdx.graphics.getHeight
-    private var stage: Stage = new Stage()
+    private val stage: Stage = new Stage()
     private var table: Table = uninitialized
     private var resumeButton: VisTextButton = uninitialized
     private var label: VisLabel = uninitialized
@@ -21,19 +23,13 @@ class PauseScreen(game:Swerve, gameScreen:GameScreen) extends Screen{
     private var highScore: Int = uninitialized
     private var hsLabel: VisLabel = uninitialized
     var exitButton: VisTextButton = uninitialized
+    private val music:Music = game.music
 
-    exitButton = VisTextButton("Exit")
-    exitButton.addListener(new ClickListener {
-        override def clicked(event: InputEvent, x: Float, y: Float): Unit = {
-            Gdx.app.exit()
-            dispose()
-            Assets.dispose()
-
-        }
-    })
+    
 
     override def show(): Unit = {
         if (!VisUI.isLoaded) VisUI.load()
+        music.setVolume(0.4f)
         Gdx.input.setInputProcessor(stage)
         table = new Table()
         resumeButton = new VisTextButton("Resume")
@@ -44,6 +40,15 @@ class PauseScreen(game:Swerve, gameScreen:GameScreen) extends Screen{
             }
         })
 
+        exitButton = VisTextButton("Exit")
+        exitButton.addListener(new ClickListener {
+            override def clicked(event: InputEvent, x: Float, y: Float): Unit = {
+                Gdx.app.exit()
+                dispose()
+                Assets.dispose()
+
+            }
+        })
 
         highScore = prefs.getInteger("highscore", 0)
         hsLabel = new VisLabel(f"Highscore : $highScore")

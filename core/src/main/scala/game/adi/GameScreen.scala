@@ -1,9 +1,11 @@
 package game.adi
 
+import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.{Gdx, Input, Screen}
 import com.badlogic.gdx.graphics.{Color, Texture}
 import com.badlogic.gdx.graphics.g2d.{Batch, BitmapFont}
 import com.badlogic.gdx.utils.ScreenUtils
+import com.badlogic.gdx.utils.Timer
 
 import scala.collection.mutable.ArrayBuffer
 import scala.compiletime.uninitialized
@@ -32,6 +34,8 @@ class GameScreen(game: Swerve) extends Screen {
     private val pauseScreen: PauseScreen = new PauseScreen(game, this)
     private var paused: Boolean = false
     private var innit: Boolean = false
+    private val music:Music = game.music
+    private var endTimer:Float = uninitialized
 
 
     private val smartEnemies = new ArrayBuffer[Enemy]()
@@ -40,7 +44,9 @@ class GameScreen(game: Swerve) extends Screen {
 
 
     override def show(): Unit = {
+        music.setVolume(1f)
         if(!innit) {
+
             highScore = prefs.getInteger("highscore", 0)
             player = new Player
             playerImg = Assets.loadPlayerSprite()
@@ -118,21 +124,24 @@ class GameScreen(game: Swerve) extends Screen {
                 e.pos().y >= -150
             )
 
-            batch.end()
+
         }
 
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             game.setScreen(pauseScreen)
             setPaused(true)
         }
+        batch.end()
     }
 
 
     def setPaused(p: Boolean): Unit = paused = p
 
     private def gameOver(): Unit = {
+        setPaused(true)
         game.setScreen(new GameOverScreen(game))
         dispose()
+
     }
 
     private def spawnSmartEnemy(): Unit = {

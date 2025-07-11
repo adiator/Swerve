@@ -55,7 +55,13 @@ com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
     font: font
     up: button
     down: button-selected
+  },
+  toggle: {
+    up: button
+    down: button-selected
+    checked: button-selected
   }
+
 },
 
 

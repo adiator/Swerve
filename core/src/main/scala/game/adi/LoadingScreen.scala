@@ -1,5 +1,6 @@
 package game.adi
 
+import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.{Gdx, Screen}
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.BitmapFont
@@ -14,6 +15,7 @@ import scala.compiletime.uninitialized
 class LoadingScreen(game: Swerve) extends Screen {
 
     private val batch = game.batch
+    private var music:Music = game.music
     private val font = new BitmapFont()
     private var time = 0f
     private var loaded = false
@@ -54,7 +56,12 @@ class LoadingScreen(game: Swerve) extends Screen {
                 Assets.load()
                 loaded = true
             }
-            if (Assets.loaded) time = 18f;
+            if (Assets.loaded) {
+                time = 18f
+                music.play()
+                music.setVolume(0.4f)
+                music.setLooping(true)
+            }
             Assets.loaded = false
         }
         progressBar.setValue(time)

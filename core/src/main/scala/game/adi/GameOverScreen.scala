@@ -1,5 +1,6 @@
 package game.adi
 
+import com.badlogic.gdx.audio.{Music, Sound}
 import com.badlogic.gdx.{Gdx, Screen}
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.{InputEvent, Stage}
@@ -21,11 +22,17 @@ class GameOverScreen(game: Swerve) extends Screen {
     private var exitButton: VisTextButton = uninitialized
     private var mainScreenButton: VisTextButton = uninitialized
     private var gameOver: VisLabel = uninitialized
+    private var failSound: Sound = uninitialized
+    private val music: Music = game.music
 
     override def show(): Unit = {
         if (!VisUI.isLoaded) VisUI.load()
         stage = new Stage()
         Gdx.input.setInputProcessor(stage)
+        
+        failSound = Gdx.audio.newSound(Gdx.files.internal("failure.mp3"))
+        music.setVolume(0.2f)
+        failSound.play()
 
         restart = VisTextButton("Restart")
         restart.setFocusBorderEnabled(true)

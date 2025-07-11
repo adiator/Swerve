@@ -34,13 +34,13 @@ class Player {
         if (x >= 0) {
             if (Gdx.input.isKeyPressed(Input.Keys.A)) x -= speed * dt
         }
-        if(x <= width-(98*scalef)-400){
+        if(x <= width-(98*scalef)){
             if (Gdx.input.isKeyPressed(Input.Keys.D)) x += speed * dt
         }
         if (y >= 0) {
             if (Gdx.input.isKeyPressed(Input.Keys.S)) y -= speed * dt
         }
-        if(y <= height-(214*scalef)){
+        if(y <= height-(214*scalef)-100){
             if (Gdx.input.isKeyPressed(Input.Keys.W)) y += speed * dt
         }
         val newPos = new Vector2(x, y)
