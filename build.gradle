@@ -1,3 +1,5 @@
+
+
 buildscript {
   repositories {
     mavenCentral()
@@ -11,6 +13,16 @@ buildscript {
   dependencies {
 
 
+  }
+}
+
+plugins {
+  id 'java'
+}
+
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(22)
   }
 }
 allprojects {

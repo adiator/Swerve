@@ -4,6 +4,7 @@ import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.{Gdx, Input, Screen}
 import com.badlogic.gdx.graphics.{Color, Texture}
 import com.badlogic.gdx.graphics.g2d.{Batch, BitmapFont}
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.utils.ScreenUtils
 import com.badlogic.gdx.utils.Timer
 
@@ -13,7 +14,7 @@ import scala.util.Random
 
 
 class GameScreen(game: Swerve) extends Screen {
-    private var player: Player = uninitialized
+    private var player: Player =  new Player
     private val batch: Batch = game.batch
     private var playerImg: Texture = uninitialized
     private var smartEnemy: Enemy = uninitialized
@@ -48,7 +49,6 @@ class GameScreen(game: Swerve) extends Screen {
         if(!innit) {
 
             highScore = prefs.getInteger("highscore", 0)
-            player = new Player
             playerImg = Assets.loadPlayerSprite()
             player.initSprite(playerImg, scalef)
 
@@ -167,6 +167,10 @@ class GameScreen(game: Swerve) extends Screen {
         dumbEnemyR.setpos(ranxR, Gdx.graphics.getHeight + 10)
         dumbEnemyR.initSprite(Assets.loadDumbEnemySprite(), scalef)
         dumbEnemiesR += dumbEnemyR
+    }
+
+    def getPlayer(): Player = {
+        player
     }
 
     override def resume(): Unit = {}

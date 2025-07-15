@@ -58,7 +58,7 @@ class LoadingScreen(game: Swerve) extends Screen {
             }
             if (Assets.loaded) {
                 time = 18f
-                music.play()
+//                music.play()
                 music.setVolume(0.4f)
                 music.setLooping(true)
             }

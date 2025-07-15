@@ -14,11 +14,11 @@ import com.badlogic.gdx.scenes.scene2d.Actor
 
 import scala.compiletime.uninitialized
 
-class MainScreen(game:Swerve) extends Screen{
+class MainScreen(game: Swerve) extends Screen {
     private val width = Gdx.graphics.getWidth
     private val height = Gdx.graphics.getHeight
     private var stage: Stage = uninitialized
-    private var table:Table = uninitialized
+    private var table: Table = uninitialized
     private var aboutTable: Table = uninitialized
     private var musicTable: Table = uninitialized
     private var startButton: VisTextButton = uninitialized
@@ -28,20 +28,20 @@ class MainScreen(game:Swerve) extends Screen{
     private var hsLabel: VisLabel = uninitialized
     private var exitButton: VisTextButton = uninitialized
     private var aboutButton: VisTextButton = uninitialized
-    private val music:Music = game.music
     private var musicButton: VisTextButton = uninitialized
-    var musicOn = true
+    private var songChoice: VisTextButton = uninitialized
+    private var musicOn = true
 
     override def show(): Unit = {
-        if(!VisUI.isLoaded) VisUI.load()
-        music.setVolume(0.4f)
+        if (!VisUI.isLoaded) VisUI.load()
+        game.music.setVolume(0.4f)
         stage = new Stage()
         Gdx.input.setInputProcessor(stage)
         table = new Table()
         aboutTable = new Table()
         musicTable = new Table()
         startButton = new VisTextButton("Start")
-        startButton.addListener(new ClickListener{
+        startButton.addListener(new ClickListener {
             override def clicked(event: InputEvent, x: Float, y: Float): Unit = {
                 game.setScreen(new GameScreen(game))
                 dispose()
@@ -71,11 +71,38 @@ class MainScreen(game:Swerve) extends Screen{
                 override def changed(changeEvent: ChangeListener.ChangeEvent, actor: Actor): Unit = {
                     musicOn = !musicOn
                     if (musicOn) {
-                        music.play()
+                        game.music.play()
                         musicButton.setText("Music off")
                     } else {
-                        music.pause()
+                        game.music.pause()
                         musicButton.setText("Music on")
+                    }
+
+                }
+            }
+        )
+        if (game.songno == 0) songChoice = new VisTextButton("Song 1")
+        else songChoice = new VisTextButton("Song 2")
+        songChoice.addListener(
+            new ClickListener {
+                override def clicked(event: InputEvent, x: Float, y: Float): Unit = {
+                    if (game.songno == 0) game.songno = 1
+                    else game.songno = 0
+
+
+                    if (game.songno == 0) {
+                        game.music.stop()
+                        game.music = Gdx.audio.newMusic(Gdx.files.internal("ButtonMasher.mp3"))
+                        game.music.setVolume(0.4f)
+                        game.music.play()
+                        songChoice.setText("Song 1")
+                    }
+                    else if (game.songno == 1) {
+                        game.music.stop()
+                        game.music = Gdx.audio.newMusic(Gdx.files.internal("SkyHigh.mp3"))
+                        game.music.setVolume(0.4f)
+                        game.music.play()
+                        songChoice.setText("Song 2")
                     }
 
                 }
@@ -90,7 +117,8 @@ class MainScreen(game:Swerve) extends Screen{
 
         musicTable.center().right()
         musicTable.setFillParent(true)
-        musicTable.add(musicButton).width(250f).height(125f)
+        musicTable.add(musicButton).width(250f).height(125f).row()
+        musicTable.add(songChoice).width(250f).height(125f)
 
         table.center()
         table.setFillParent(true)
@@ -112,6 +140,7 @@ class MainScreen(game:Swerve) extends Screen{
         stage.draw()
 
     }
+
     override def resize(width: Int, height: Int): Unit = {}
 
     override def pause(): Unit = {}

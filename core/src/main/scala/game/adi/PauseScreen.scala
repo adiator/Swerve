@@ -22,10 +22,13 @@ class PauseScreen(game:Swerve, gameScreen:GameScreen) extends Screen{
     private val prefs = Gdx.app.getPreferences("profile")
     private var highScore: Int = uninitialized
     private var hsLabel: VisLabel = uninitialized
-    var exitButton: VisTextButton = uninitialized
+    private var exitButton: VisTextButton = uninitialized
+    private var mainMenuButton: VisTextButton = uninitialized
+    private var player: Player = gameScreen.getPlayer()
+
     private val music:Music = game.music
 
-    
+
 
     override def show(): Unit = {
         if (!VisUI.isLoaded) VisUI.load()
@@ -37,6 +40,15 @@ class PauseScreen(game:Swerve, gameScreen:GameScreen) extends Screen{
             override def clicked(event: InputEvent, x: Float, y: Float): Unit = {
                 game.setScreen(gameScreen)
                 gameScreen.setPaused(false)
+            }
+        })
+
+        mainMenuButton = VisTextButton("Home")
+        mainMenuButton.addListener(new ClickListener {
+            override def clicked(event: InputEvent, x: Float, y: Float): Unit = {
+                game.setScreen(new MainScreen(game))
+                dispose()
+
             }
         })
 
@@ -56,14 +68,19 @@ class PauseScreen(game:Swerve, gameScreen:GameScreen) extends Screen{
 
         table.add(hsLabel).padBottom(200).row()
         table.add(resumeButton).width(300f).height(150f).pad(100).row()
+        table.add(mainMenuButton).width(150).height(75f).row()
         table.add(exitButton).width(150).height(75f)
         table.center()
         table.setFillParent(true)
         stage.addActor(table)
+
     }
 
     override def render(v: Float): Unit = {
-//        ScreenUtils.clear(Color.DARK_GRAY)
+        ScreenUtils.clear(Color.BLACK)
+        game.batch.begin()
+        player.draw(game.batch)
+        game.batch.end()
         stage.act(v)
         stage.draw()
 
