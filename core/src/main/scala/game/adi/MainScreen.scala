@@ -65,17 +65,17 @@ class MainScreen(game: Swerve) extends Screen {
 
             }
         })
-        musicButton = new VisTextButton("Music off")
+        musicButton = new VisTextButton("Music on")
         musicButton.addListener(
             new ChangeListener {
                 override def changed(changeEvent: ChangeListener.ChangeEvent, actor: Actor): Unit = {
                     musicOn = !musicOn
                     if (musicOn) {
                         game.music.play()
-                        musicButton.setText("Music off")
+                        musicButton.setText("Music on")
                     } else {
                         game.music.pause()
-                        musicButton.setText("Music on")
+                        musicButton.setText("Music off")
                     }
 
                 }
@@ -86,24 +86,26 @@ class MainScreen(game: Swerve) extends Screen {
         songChoice.addListener(
             new ClickListener {
                 override def clicked(event: InputEvent, x: Float, y: Float): Unit = {
-                    if (game.songno == 0) game.songno = 1
-                    else game.songno = 0
+                    if (game.songno == 2) game.songno = 0
+                    else game.songno +=1
 
 
+                    game.music.stop()
                     if (game.songno == 0) {
-                        game.music.stop()
                         game.music = Gdx.audio.newMusic(Gdx.files.internal("ButtonMasher.mp3"))
-                        game.music.setVolume(0.4f)
-                        game.music.play()
                         songChoice.setText("Song 1")
                     }
                     else if (game.songno == 1) {
-                        game.music.stop()
                         game.music = Gdx.audio.newMusic(Gdx.files.internal("SkyHigh.mp3"))
-                        game.music.setVolume(0.4f)
-                        game.music.play()
                         songChoice.setText("Song 2")
                     }
+                    else if (game.songno == 2) {
+                        game.music = Gdx.audio.newMusic(Gdx.files.internal("onandon.mp3"))
+                        songChoice.setText("Song 3")
+                    }
+                    game.music.setVolume(0.4f)
+                    game.music.setLooping(true)
+                    if(musicOn) game.music.play()
 
                 }
             }
@@ -135,7 +137,7 @@ class MainScreen(game: Swerve) extends Screen {
     }
 
     override def render(v: Float): Unit = {
-        ScreenUtils.clear(Color.DARK_GRAY)
+        ScreenUtils.clear(Color.valueOf("2a2a38"))
         stage.act(v)
         stage.draw()
 

@@ -11,7 +11,7 @@ class Enemy {
     private var x: Float = uninitialized
     private var y: Float = uninitialized
     private var speedx: Float = uninitialized
-    private val speedy: Float = 250
+    private var speedy: Float = 250
     var sprite: Sprite = uninitialized
     var velocity: Vector2 = uninitialized
     var follow: Boolean = false
@@ -50,7 +50,9 @@ class Enemy {
         vel
 
     }
-
+    def setYSpeed(s:Float):Unit = {
+        speedy = s
+    }
     private def updatevel(o: Vector2, n: Vector2): Unit = {
         velocity = n.sub(o)
 

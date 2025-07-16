@@ -29,7 +29,7 @@ class GameOverScreen(game: Swerve) extends Screen {
         if (!VisUI.isLoaded) VisUI.load()
         stage = new Stage()
         Gdx.input.setInputProcessor(stage)
-        
+
         failSound = Gdx.audio.newSound(Gdx.files.internal("failure.mp3"))
         music.setVolume(0.2f)
         failSound.play()
@@ -78,7 +78,7 @@ class GameOverScreen(game: Swerve) extends Screen {
 
 
     override def render(delta: Float): Unit = {
-        ScreenUtils.clear(Color.DARK_GRAY)
+        ScreenUtils.clear(Color.valueOf("2a2a38"))
         stage.act(delta)
         stage.draw()
     }

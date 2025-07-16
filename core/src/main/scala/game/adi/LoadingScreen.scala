@@ -47,7 +47,7 @@ class LoadingScreen(game: Swerve) extends Screen {
     }
 
     override def render(v: Float): Unit = {
-        ScreenUtils.clear(Color.DARK_GRAY)
+        ScreenUtils.clear(Color.valueOf("2a2a38"))
         stage.act(v)
         stage.draw()
         time += v
@@ -58,7 +58,7 @@ class LoadingScreen(game: Swerve) extends Screen {
             }
             if (Assets.loaded) {
                 time = 18f
-//                music.play()
+                music.play()
                 music.setVolume(0.4f)
                 music.setLooping(true)
             }

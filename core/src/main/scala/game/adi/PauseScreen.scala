@@ -77,7 +77,7 @@ class PauseScreen(game:Swerve, gameScreen:GameScreen) extends Screen{
     }
 
     override def render(v: Float): Unit = {
-        ScreenUtils.clear(Color.BLACK)
+        ScreenUtils.clear(Color.valueOf("2a2a38"))
         game.batch.begin()
         player.draw(game.batch)
         game.batch.end()
