@@ -25,3 +25,12 @@ Enemy behavior is driven by a neural network trained in a **Jupyter notebook** o
 This project uses the **Star Soldier UI** skin by Ray3K.  
 Licensed under the Creative Commons Attribution 4.0 International License.  
 [Source](https://ray3k.wordpress.com/artwork/star-soldier-ui-skin-for-libgdx/)
+
+--- 
+
+# 🔊 Music Credits 
+
+Music by https://www.steven-obrien.net/
+80s Synthpop Experiment - Steven O'Brien
+
+---

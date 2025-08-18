@@ -120,7 +120,7 @@ class MainScreen(game: Swerve) extends Screen {
         musicTable.center().right()
         musicTable.setFillParent(true)
         musicTable.add(musicButton).width(250f).height(125f).row()
-        musicTable.add(songChoice).width(250f).height(125f)
+//        musicTable.add(songChoice).width(250f).height(125f)
 
         table.center()
         table.setFillParent(true)

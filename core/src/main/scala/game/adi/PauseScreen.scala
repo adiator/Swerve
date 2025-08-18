@@ -1,7 +1,7 @@
 package game.adi
 
 import com.badlogic.gdx.audio.Music
-import com.badlogic.gdx.{Gdx, Screen}
+import com.badlogic.gdx.{Gdx, Input, Screen}
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.scenes.scene2d.{InputEvent, Stage}
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener
@@ -38,8 +38,7 @@ class PauseScreen(game:Swerve, gameScreen:GameScreen) extends Screen{
         resumeButton = new VisTextButton("Resume")
         resumeButton.addListener(new ClickListener {
             override def clicked(event: InputEvent, x: Float, y: Float): Unit = {
-                game.setScreen(gameScreen)
-                gameScreen.setPaused(false)
+                showGame()
             }
         })
 
@@ -48,7 +47,6 @@ class PauseScreen(game:Swerve, gameScreen:GameScreen) extends Screen{
             override def clicked(event: InputEvent, x: Float, y: Float): Unit = {
                 game.setScreen(new MainScreen(game))
                 dispose()
-
             }
         })
 
@@ -83,7 +81,15 @@ class PauseScreen(game:Swerve, gameScreen:GameScreen) extends Screen{
         game.batch.end()
         stage.act(v)
         stage.draw()
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            showGame()
+        }
 
+    }
+
+    private def showGame():Unit={
+        game.setScreen(gameScreen)
+        gameScreen.setPaused(false)
     }
 
     override def resize(width: Int, height: Int): Unit = {}

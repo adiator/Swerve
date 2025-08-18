@@ -19,6 +19,8 @@ class GameScreen(game: Swerve) extends Screen {
     private var dumbEnemyL: Enemy = uninitialized
     private var dumbEnemyR: Enemy = uninitialized
     private var divider: Divider = uninitialized
+    private var dividerR: Divider = uninitialized
+    private var dividerL: Divider = uninitialized
     private var t1: Float = 0f
     private var t2: Float = 0f
     private var t3: Float = 0f
@@ -39,6 +41,8 @@ class GameScreen(game: Swerve) extends Screen {
     private var endTimer: Float = uninitialized
 
     private val dividers = new ArrayBuffer[Divider]()
+    private val dividersL = new ArrayBuffer[Divider]()
+    private val dividersR = new ArrayBuffer[Divider]()
     private val smartEnemies = new ArrayBuffer[Enemy]()
     private val dumbEnemiesL = new ArrayBuffer[Enemy]()
     private val dumbEnemiesR = new ArrayBuffer[Enemy]()
@@ -63,7 +67,7 @@ class GameScreen(game: Swerve) extends Screen {
 
     override def render(v: Float): Unit = {
 
-        ScreenUtils.clear(Color.BLACK)
+        ScreenUtils.clear(Color.valueOf("545454"))
 
         if (!paused) {
             t1 += v
@@ -194,9 +198,22 @@ class GameScreen(game: Swerve) extends Screen {
 
     private def spawnDivider(): Unit = {
         divider = new Divider
+        dividerL = new Divider
+        dividerR = new Divider
+
         divider.innit()
-        divider.setPos(centre - 10, Gdx.graphics.getHeight)
+        divider.setPos(centre -10, Gdx.graphics.getHeight)
+
+        dividerL.innit()
+        dividerL.setPos(centre + limit -40, Gdx.graphics.getHeight)
+
+        dividerR.innit()
+        dividerR.setPos(centre - limit +40, Gdx.graphics.getHeight)
+
         dividers += divider
+        dividers += dividerL
+        dividers += dividerR
+
     }
 
     def getPlayer(): Player = {

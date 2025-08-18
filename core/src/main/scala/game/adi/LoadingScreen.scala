@@ -15,7 +15,7 @@ import scala.compiletime.uninitialized
 class LoadingScreen(game: Swerve) extends Screen {
 
     private val batch = game.batch
-    private var music:Music = game.music
+    private val music:Music = game.music
     private val font = new BitmapFont()
     private var time = 0f
     private var loaded = false

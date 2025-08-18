@@ -14,7 +14,7 @@ class Swerve extends Game{
     var songno = 0
     override def create(): Unit = {
         batch = new SpriteBatch()
-        music = Gdx.audio.newMusic(Gdx.files.internal("ButtonMasher.mp3"))
+        music = Gdx.audio.newMusic(Gdx.files.internal("synthpop.mp3"))
         VisUI.load(Gdx.files.internal("skins/star-soldier-ui.json"))
         setScreen(new LoadingScreen(this))
     }

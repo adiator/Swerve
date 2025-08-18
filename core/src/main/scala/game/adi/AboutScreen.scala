@@ -23,7 +23,10 @@ class AboutScreen(game:Swerve) extends Screen{
     private var copyRightLabel: VisLabel = uninitialized
     private var backButton: VisTextButton = uninitialized
     private var githubLink: LinkLabel = uninitialized
-
+    private var songCredits : VisLabel = uninitialized
+    private var songCredits2 : VisLabel = uninitialized
+    private var songCredits3 : VisLabel = uninitialized
+    private val padding:Int = 75
     override def show(): Unit = {
         if (!VisUI.isLoaded) VisUI.load()
         stage = new Stage()
@@ -44,7 +47,7 @@ class AboutScreen(game:Swerve) extends Screen{
 
 
         aboutLabel = new VisLabel("About")
-        aboutLabel.setFontScale(3)
+        aboutLabel.setFontScale(2)
 
         copyRightLabel = new VisLabel("Copyright © 2025 Aditya Pant")
 
@@ -52,15 +55,22 @@ class AboutScreen(game:Swerve) extends Screen{
         skinCredit = new VisLabel("UI Skin: Star Soldier by Ray3K, licensed under ")
         licenseLink = new LinkLabel("CC BY 4.0", "https://creativecommons.org/licenses/by/4.0/")
 
+        songCredits = new VisLabel("Music by:")
+        songCredits2 = new LinkLabel("https://www.steven-obrien.net/", "https://www.steven-obrien.net/")
+        songCredits3 = new VisLabel(" 80s Synthpop Experiment - Steven O'Brien")
+
         githubLink = new LinkLabel("Source Code", "https://github.com/Aidont/Swerve?tab=readme-ov-file")
 
 
 
-        table.add(aboutLabel).padLeft(100).padBottom(200).row()
-        table.add(copyRightLabel).padLeft(100).padBottom(200).row()
-        table.add(skinCredit).padBottom(150)
-        table.add(licenseLink).padBottom(150).row()
-        table.add(githubLink).padLeft(100).padBottom(150).row()
+        table.add(aboutLabel).padLeft(100).padBottom(padding+50).row()
+        table.add(copyRightLabel).padLeft(100).padBottom(padding).row()
+        table.add(skinCredit).padBottom(padding)
+        table.add(licenseLink).padBottom(padding).row()
+        table.add(songCredits).padLeft(-350).padBottom(padding)
+        table.add(songCredits2).padLeft(-550).padBottom(padding).row()
+        table.add(songCredits3).padLeft(120).padBottom(padding).row()
+        table.add(githubLink).padLeft(100).padBottom(padding).row()
         table.add(backButton).padLeft(100).width(150).height(75f)
         stage.addActor(table)
     }
