@@ -12,7 +12,7 @@ class Player {
     private val height = Gdx.graphics.getHeight
     private var x: Float = width/2
     private var y: Float = height/2
-    private val speed = 200
+    private val speed = 275
     var sprite: Sprite = uninitialized
     var velocity: Vector2 = uninitialized
     private var scalef:Float = uninitialized
@@ -31,16 +31,16 @@ class Player {
 
     def update(dt: Float): Unit = {
         val oldPos = new Vector2(x, y)
-        if (x >= 0) {
+        if (x >= 500) {
             if (Gdx.input.isKeyPressed(Input.Keys.A)) x -= speed * dt
         }
-        if(x <= width-(98*scalef)){
+        if(x <= width-500-(28*scalef)){
             if (Gdx.input.isKeyPressed(Input.Keys.D)) x += speed * dt
         }
         if (y >= 0) {
             if (Gdx.input.isKeyPressed(Input.Keys.S)) y -= speed * dt
         }
-        if(y <= height-(214*scalef)-100){
+        if(y <= height-(64*scalef)-100){
             if (Gdx.input.isKeyPressed(Input.Keys.W)) y += speed * dt
         }
         val newPos = new Vector2(x, y)

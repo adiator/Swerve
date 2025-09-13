@@ -9,13 +9,15 @@ object Assets {
     private var playerSprite: Texture = uninitialized
     private var smartEnemySprite: Texture = uninitialized
     private var dumbEnemySprite: Texture = uninitialized
+    private var backgroundSprite:Texture = uninitialized
     private var model: Model = uninitialized
-    var loaded:Boolean = false
+    var loaded: Boolean = false
 
     def load(): Unit = {
-        playerSprite = new Texture("Police.png")
-        smartEnemySprite = new Texture("Audi.png")
+        playerSprite = new Texture("CarSprite.png")
+        smartEnemySprite = new Texture("TruckSprite.png")
         dumbEnemySprite = new Texture("Mini_truck.png")
+        backgroundSprite = new Texture("Road.png")
         model = new Model
         model.load()
         loaded = true
@@ -27,6 +29,8 @@ object Assets {
     def loadSmartEnemySprite(): Texture = smartEnemySprite
 
     def loadDumbEnemySprite(): Texture = dumbEnemySprite
+    
+    def loadBackground(): Texture = backgroundSprite
 
     def loadModel(): Model = model
 
@@ -34,6 +38,7 @@ object Assets {
         playerSprite.dispose()
         smartEnemySprite.dispose()
         dumbEnemySprite.dispose()
+        backgroundSprite.dispose()
         model.close()
     }
 }

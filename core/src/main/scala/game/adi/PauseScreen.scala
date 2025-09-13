@@ -10,6 +10,7 @@ import com.kotcrab.vis.ui.VisUI
 import com.kotcrab.vis.ui.widget.{VisLabel, VisTextButton}
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 
+import scala.collection.mutable.ArrayBuffer
 import scala.compiletime.uninitialized
 
 class PauseScreen(game:Swerve, gameScreen:GameScreen) extends Screen{
@@ -24,13 +25,16 @@ class PauseScreen(game:Swerve, gameScreen:GameScreen) extends Screen{
     private var hsLabel: VisLabel = uninitialized
     private var exitButton: VisTextButton = uninitialized
     private var mainMenuButton: VisTextButton = uninitialized
-    private var player: Player = gameScreen.getPlayer()
+    private var player: Player = uninitialized
+    private var background:ArrayBuffer[Background] = uninitialized
 
     private val music:Music = game.music
 
 
 
     override def show(): Unit = {
+        player = gameScreen.getBackground
+        background = gameScreen.getBackground
         if (!VisUI.isLoaded) VisUI.load()
         music.setVolume(0.4f)
         Gdx.input.setInputProcessor(stage)
@@ -72,11 +76,16 @@ class PauseScreen(game:Swerve, gameScreen:GameScreen) extends Screen{
         table.setFillParent(true)
         stage.addActor(table)
 
+
+
     }
 
     override def render(v: Float): Unit = {
         ScreenUtils.clear(Color.valueOf("2a2a38"))
         game.batch.begin()
+        background.foreach(b=>
+            b.draw(game.batch)
+        )
         player.draw(game.batch)
         game.batch.end()
         stage.act(v)
