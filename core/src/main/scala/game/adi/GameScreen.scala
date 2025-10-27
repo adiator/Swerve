@@ -99,7 +99,10 @@ class GameScreen(game: Swerve) extends Screen {
             smartEnemies.foreach(e =>
                 e.update(v, player, model)
                 e.draw(batch)
-                if (e.sprite.getBoundingRectangle.overlaps(player.sprite.getBoundingRectangle)) {
+//                if (e.sprite.getBoundingRectangle.overlaps(player.sprite.getBoundingRectangle)) {
+//                    gameOver()
+//                }
+                if(player.collides(e)){
                     gameOver()
                 }
                 if (player.pos().y > (e.pos().y + 213 * scalef) && !e.overtaken) {

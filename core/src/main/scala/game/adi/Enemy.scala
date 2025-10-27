@@ -3,7 +3,7 @@ package game.adi
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.{Batch, Sprite}
-import com.badlogic.gdx.math.Vector2
+import com.badlogic.gdx.math.{Polygon, Vector2}
 
 import scala.compiletime.uninitialized
 
@@ -17,7 +17,7 @@ class Enemy {
     var follow: Boolean = false
     private val centre = (Gdx.graphics.getWidth)/2
     var overtaken: Boolean = false
-
+    private var collider: Polygon = uninitialized
 
     def followPlayer():Unit = {
         follow = true
@@ -27,15 +27,46 @@ class Enemy {
         y = Y
     }
 
+    def setCollisionShape(vertices: Array[Float]): Unit = {
+        collider = new Polygon(vertices)
+        collider.setOrigin(sprite.getOriginX, sprite.getOriginY)
+        syncCollider()
+    }
+
     def initSprite(texture: Texture, scale: Float): Unit = {
         sprite = new Sprite(texture)
         sprite.setSize(texture.getWidth * scale, texture.getHeight * scale)
         sprite.setOriginCenter()
+        val w = sprite.getWidth
+        val h = sprite.getHeight
+        val verts = Array[Float](
+            0.000f * w, 0.730f * h,
+            0.034f * w, 0.952f * h,
+            0.138f * w, 1.000f * h,
+            0.862f * w, 1.000f * h,
+            0.966f * w, 0.952f * h,
+            1.000f * w, 0.730f * h,
+            1.000f * w, 0.698f * h,
+            0.966f * w, 0.032f * h,
+            0.897f * w, 0.000f * h,
+            0.103f * w, 0.000f * h,
+            0.034f * w, 0.032f * h,
+            0.000f * w, 0.698f * h
+        )
+        setCollisionShape(verts)
     }
+
+    private def syncCollider(): Unit = {
+        if (collider != null) {
+            collider.setPosition(sprite.getX, sprite.getY)
+        }
+    }
+
 
     def draw(batch: Batch): Unit = {
         sprite.setPosition(x, y)
         sprite.draw(batch)
+        syncCollider()
     }
 
     def x_speed(p: Player, m:Model): Float = {
@@ -54,7 +85,7 @@ class Enemy {
         speedy = s
     }
     private def updatevel(o: Vector2, n: Vector2): Unit = {
-        velocity = n.sub(o)
+        velocity = n sub o
 
     }
 
@@ -73,5 +104,8 @@ class Enemy {
         new Vector2(x, y)
     }
 
+    def getCollider():Polygon = {
+        collider
+    }
 
 }

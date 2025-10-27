@@ -33,7 +33,7 @@ class PauseScreen(game:Swerve, gameScreen:GameScreen) extends Screen{
 
 
     override def show(): Unit = {
-        player = gameScreen.getBackground
+        player = gameScreen.getPlayer
         background = gameScreen.getBackground
         if (!VisUI.isLoaded) VisUI.load()
         music.setVolume(0.4f)
