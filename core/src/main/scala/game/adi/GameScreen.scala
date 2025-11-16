@@ -2,9 +2,10 @@ package game.adi
 
 import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.{Gdx, Input, Screen}
-import com.badlogic.gdx.graphics.{Color, Texture}
+import com.badlogic.gdx.graphics.{Color, OrthographicCamera, Texture}
 import com.badlogic.gdx.graphics.g2d.{Batch, BitmapFont}
 import com.badlogic.gdx.utils.ScreenUtils
+import com.badlogic.gdx.utils.viewport.{FitViewport, Viewport}
 
 import scala.collection.mutable.ArrayBuffer
 import scala.compiletime.uninitialized
@@ -33,6 +34,10 @@ class GameScreen(game: Swerve) extends Screen {
     private val music: Music = game.music
     private var endTimer: Float = uninitialized
     private var addBG = false
+    private var camera:OrthographicCamera = uninitialized
+    private var viewport: Viewport = uninitialized
+    private val width = Gdx.graphics.getWidth.toFloat
+    private val height = Gdx.graphics.getHeight.toFloat
 
 
     private val backgrounds = new ArrayBuffer[Background]()
@@ -48,6 +53,8 @@ class GameScreen(game: Swerve) extends Screen {
     override def show(): Unit = {
         music.setVolume(0.8f)
         if (!innit) {
+            camera = new OrthographicCamera()
+            viewport = new FitViewport(width, height, camera)
 
             highScore = prefs.getInteger("highscore", 0)
             playerImg = Assets.loadPlayerSprite()
@@ -168,7 +175,9 @@ class GameScreen(game: Swerve) extends Screen {
 
     override def resume(): Unit = {}
 
-    override def resize(i: Int, i1: Int): Unit = {}
+    override def resize(width: Int, height: Int): Unit = {
+        viewport.update(width, height)
+    }
 
     override def pause(): Unit = {}
 
