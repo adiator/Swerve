@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.{Polygon, Vector2}
 
 import scala.compiletime.uninitialized
 
-class Enemy {
+class Enemy(game: GameScreen) {
     private var x: Float = uninitialized
     private var y: Float = uninitialized
     private var speedx: Float = uninitialized
@@ -15,7 +15,7 @@ class Enemy {
     var sprite: Sprite = uninitialized
     var velocity: Vector2 = uninitialized
     var follow: Boolean = false
-    private val centre = (Gdx.graphics.getWidth)/2
+    private val centre = (game.getViewport.getWorldWidth)/2
     var overtaken: Boolean = false
     private var collider: Polygon = uninitialized
 

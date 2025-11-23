@@ -3,14 +3,14 @@ package game.adi
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.{Batch, Sprite}
 import com.badlogic.gdx.math.{Intersector, Polygon, Vector2}
-import com.badlogic.gdx.{Gdx, Input}
+import com.badlogic.gdx.{Gdx, Input, Screen}
 
 import scala.compiletime.uninitialized
 
 
-class Player {
-    private val width = Gdx.graphics.getWidth.toFloat
-    private val height = Gdx.graphics.getHeight.toFloat
+class Player(game: GameScreen) {
+    private val width = game.getViewport.getWorldWidth
+    private val height = game.getViewport.getWorldHeight
     private var x: Float = width/2
     private var y: Float = height/2
     private val speed = 275
@@ -83,7 +83,7 @@ class Player {
         syncCollider()
 
     }
-    
+
     def collides(other:Enemy): Boolean = {
         Intersector.overlapConvexPolygons(collider, other.getCollider())
     }

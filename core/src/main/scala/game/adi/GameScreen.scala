@@ -13,7 +13,7 @@ import scala.util.Random
 
 
 class GameScreen(game: Swerve) extends Screen {
-    private var player: Player = new Player
+    private var player: Player = uninitialized
     private val batch: Batch = game.batch
     private var playerImg: Texture = uninitialized
     private var smartEnemy: Enemy = uninitialized
@@ -21,7 +21,6 @@ class GameScreen(game: Swerve) extends Screen {
     private var t1: Float = 0f
     private var tt1 = 2f
     private var model: Model = uninitialized
-    private val centre = (Gdx.graphics.getWidth) / 2
     private val scoreLabel: BitmapFont = new BitmapFont()
     private val limit = 460
     private val scalef = 2.3f
@@ -36,14 +35,15 @@ class GameScreen(game: Swerve) extends Screen {
     private var addBG = false
     private var camera:OrthographicCamera = uninitialized
     private var viewport: Viewport = uninitialized
-    private val width = Gdx.graphics.getWidth.toFloat
-    private val height = Gdx.graphics.getHeight.toFloat
+    private val width = 1920f//Gdx.graphics.getWidth.toFloat
+    private val height = 1080f//Gdx.graphics.getHeight.toFloat
+    private val centre = width / 2
 
 
     private val backgrounds = new ArrayBuffer[Background]()
     private val smartEnemies = new ArrayBuffer[Enemy]()
 
-    def newBG(y: Float): Unit = {
+    private def newBG(y: Float): Unit = {
         background = new Background
         background.initSprite(Assets.loadBackground(), 4)
         background.setY(y)
@@ -56,6 +56,7 @@ class GameScreen(game: Swerve) extends Screen {
             camera = new OrthographicCamera()
             viewport = new FitViewport(width, height, camera)
 
+            player = new Player(this)
             highScore = prefs.getInteger("highscore", 0)
             playerImg = Assets.loadPlayerSprite()
             player.initSprite(playerImg, scalef)
@@ -106,9 +107,7 @@ class GameScreen(game: Swerve) extends Screen {
             smartEnemies.foreach(e =>
                 e.update(v, player, model)
                 e.draw(batch)
-//                if (e.sprite.getBoundingRectangle.overlaps(player.sprite.getBoundingRectangle)) {
-//                    gameOver()
-//                }
+
                 if(player.collides(e)){
                     gameOver()
                 }
@@ -137,9 +136,9 @@ class GameScreen(game: Swerve) extends Screen {
         }
 
         batch.begin()
-        scoreLabel.draw(batch, "Press ESC to pause", 0, Gdx.graphics.getHeight)
-        scoreLabel.draw(batch, f"Score : $score", 0, Gdx.graphics.getHeight - 50)
-        scoreLabel.draw(batch, f"High Score : $highScore", 0, Gdx.graphics.getHeight - 80)
+        scoreLabel.draw(batch, "Press ESC to pause", 0, viewport.getWorldWidth)
+        scoreLabel.draw(batch, f"Score : $score", 0, viewport.getWorldHeight - 50)
+        scoreLabel.draw(batch, f"High Score : $highScore", 0, viewport.getWorldHeight - 80)
         player.update(v)
         player.draw(batch)
         batch.end()
@@ -156,10 +155,10 @@ class GameScreen(game: Swerve) extends Screen {
     }
 
     private def spawnSmartEnemy(): Unit = {
-        smartEnemy = new Enemy
+        smartEnemy = new Enemy(this)
         val ranx = Random.between(centre - limit, centre + limit - (30 * scalef))
 
-        smartEnemy.setpos(ranx, Gdx.graphics.getHeight + 400)
+        smartEnemy.setpos(ranx, viewport.getWorldHeight + 400)
         smartEnemy.initSprite(Assets.loadSmartEnemySprite(), scalef)
         smartEnemy.followPlayer()
         smartEnemies += smartEnemy
@@ -169,14 +168,19 @@ class GameScreen(game: Swerve) extends Screen {
     def getPlayer: Player = {
         player
     }
+
+    def getViewport:  Viewport = {
+        viewport
+    }
+
     def getBackground: ArrayBuffer[Background]={
         backgrounds
     }
 
     override def resume(): Unit = {}
 
-    override def resize(width: Int, height: Int): Unit = {
-        viewport.update(width, height)
+    override def resize(w: Int, h: Int): Unit = {
+        viewport.update(w, h)
     }
 
     override def pause(): Unit = {}
