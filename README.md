@@ -4,6 +4,9 @@ A 2D car evasion game built using **LibGDX** and **Scala**, where enemies behave
 
 The network is trained using **PyTorch** and deployed with **DJL** (Deep Java Library) at runtime.
 
+![Image](assets/swervePic1.png)
+
+
 ---
 
 # 🎮 Controls
